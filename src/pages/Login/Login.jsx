@@ -1,4 +1,4 @@
-import { useContext } from 'react';
+import { useContext, useState } from 'react';
 import { toast } from 'react-hot-toast';
 import { FcGoogle } from 'react-icons/fc';
 import { Link, useNavigate } from 'react-router-dom';
@@ -8,16 +8,28 @@ import { TbFidgetSpinner } from 'react-icons/tb';
 const Login = () => {
   const { loading, setLoading, signIn, signInWithGoogle, resetPassword } =
     useContext(AuthContext);
+  const [email, setEmail] = useState('');
   const navigate = useNavigate();
 
   const handleLogin = (e) => {
     e.preventDefault();
-
     const email = e.target.value.email;
     const password = e.target.value.password;
+
+    signIn(email, password)
+      .then((result) => {
+        console.log(result.user);
+        setLoading(false);
+        navigate('/');
+      })
+      .catch((error) => {
+        console.log(error.message);
+        toast.error(error.message);
+        setLoading(false);
+      });
   };
 
-  const handleGoogleSignIn = (e) => {
+  const handleGoogleSignIn = () => {
     signInWithGoogle()
       .then((result) => {
         console.log(result.user);
@@ -52,6 +64,7 @@ const Login = () => {
                 Email address
               </label>
               <input
+                onChange={() => setEmail(e.target.value)}
                 type="email"
                 name="email"
                 id="email"
@@ -92,7 +105,10 @@ const Login = () => {
           </div>
         </form>
         <div className="space-y-1">
-          <button className="text-xs text-gray-400 hover:text-rose-500 hover:underline">
+          <button
+            onClick={() => handleResetPassword(email)}
+            className="text-xs text-gray-400 hover:text-rose-500 hover:underline"
+          >
             Forgot password?
           </button>
         </div>
