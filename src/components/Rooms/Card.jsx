@@ -1,4 +1,4 @@
-import HeartButton from './HeartButton';
+import HeartButton from '../Buttons/HeartButton';
 
 const Card = ({ room }) => {
   const { location, image, dateRange, price, category } = room;
