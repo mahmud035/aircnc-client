@@ -3,7 +3,7 @@ import Navbar from '../components/shared/Navbar/Navbar';
 
 const Main = () => {
   return (
-    <div className="text-red-500">
+    <div>
       <Navbar />
       <Outlet />
     </div>
