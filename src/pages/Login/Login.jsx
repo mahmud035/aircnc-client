@@ -1,8 +1,34 @@
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 import { FcGoogle } from 'react-icons/fc';
+import { useContext } from 'react';
+import { AuthContext } from '../../providers/AuthProvider';
+import { toast } from 'react-hot-toast';
 
 const Login = () => {
+  const { loading, setLoading, signIn, signInWithGoogle, resetPassword } =
+    useContext(AuthContext);
+  const navigate = useNavigate();
+
+  const handleLogin = (e) => {
+    e.preventDefault();
+
+    const email = e.target.value.email;
+    const password = e.target.value.password;
+  };
+
+  const handleGoogleSignIn = (e) => {
+    signInWithGoogle()
+      .then((result) => {
+        console.log(result.user);
+        navigate('/');
+      })
+      .catch((error) => {
+        console.log(error.message);
+        toast.error(error.message);
+      });
+  };
+
   return (
     <div className="flex min-h-screen items-center justify-center">
       <div className="flex max-w-md flex-col rounded-md bg-gray-100 p-6 text-gray-900 sm:p-10">
@@ -13,6 +39,7 @@ const Login = () => {
           </p>
         </div>
         <form
+          onSubmit={handleLogin}
           noValidate=""
           action=""
           className="ng-untouched ng-pristine ng-valid space-y-6"
@@ -70,7 +97,10 @@ const Login = () => {
           </p>
           <div className="h-px flex-1 dark:bg-gray-700 sm:w-16"></div>
         </div>
-        <div className="border-rounded m-3 flex cursor-pointer items-center justify-center space-x-2 border border-gray-300 p-2">
+        <div
+          onClick={handleGoogleSignIn}
+          className="border-rounded m-3 flex cursor-pointer items-center justify-center space-x-2 border border-gray-300 p-2"
+        >
           <FcGoogle size={32} />
 
           <p>Continue with Google</p>
