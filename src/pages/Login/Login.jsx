@@ -16,12 +16,13 @@ const Login = () => {
 
   const handleLogin = (e) => {
     e.preventDefault();
-    const email = e.target.value.email;
-    const password = e.target.value.password;
+    const email = e.target.elements.email.value;
+    const password = e.target.elements.password.value;
 
     signIn(email, password)
       .then((result) => {
         console.log(result.user);
+        toast.success('Logged-in successfully')
         setLoading(false);
         navigate(from, { replace: true });
       })
