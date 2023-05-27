@@ -1,17 +1,24 @@
 import { useCallback, useContext, useState } from 'react';
 import { AiOutlineMenu } from 'react-icons/ai';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { AuthContext } from '../../../providers/AuthProvider';
 import Avatar from './Avatar';
 
 const MenuDropdown = () => {
   const { user, logOut } = useContext(AuthContext);
   const [isOpen, setIsOpen] = useState(false);
+  const navigate = useNavigate();
 
   // NOTE: Here useCallback() hook is used for performance improvement.
   const toggleOpen = useCallback(() => {
     setIsOpen((value) => !value);
   }, []);
+
+  const handleLogout = () => {
+    logOut().then(() => {
+      navigate('/login');
+    });
+  };
 
   return (
     <div className="relative">
@@ -45,7 +52,7 @@ const MenuDropdown = () => {
             {/* Conditionally show login / logout btn */}
             {user ? (
               <div
-                onClick={logOut}
+                onClick={handleLogout}
                 className="cursor-pointer px-4 py-3 font-semibold transition hover:bg-neutral-100"
               >
                 Logout
