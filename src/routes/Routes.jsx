@@ -3,6 +3,7 @@ import Main from '../layouts/Main';
 import Home from '../pages/Home/Home';
 import Login from '../pages/Login/Login';
 import SignUp from '../pages/Login/SignUp';
+import RoomDetails from '../pages/RoomDetails/RoomDetails';
 
 export const router = createBrowserRouter([
   {
@@ -16,6 +17,10 @@ export const router = createBrowserRouter([
       {
         path: '/home',
         element: <Home />,
+      },
+      {
+        path: '/room/:id',
+        element: <RoomDetails />,
       },
     ],
   },
