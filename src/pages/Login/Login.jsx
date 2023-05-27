@@ -21,12 +21,13 @@ const Login = () => {
     signInWithGoogle()
       .then((result) => {
         console.log(result.user);
-        setLoading(false);
+        setLoading(false); // stop spinner if user logged-in successfully
         navigate('/');
       })
       .catch((error) => {
         console.log(error.message);
         toast.error(error.message);
+        setLoading(false); // stop spinner if error happens
       });
   };
 
