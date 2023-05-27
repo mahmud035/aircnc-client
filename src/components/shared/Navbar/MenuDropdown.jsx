@@ -8,6 +8,7 @@ const MenuDropdown = () => {
   const { user, logOut } = useContext(AuthContext);
   const [isOpen, setIsOpen] = useState(false);
   const navigate = useNavigate();
+  console.log(user);
 
   // NOTE: Here useCallback() hook is used for performance improvement.
   const toggleOpen = useCallback(() => {

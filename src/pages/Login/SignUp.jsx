@@ -1,8 +1,96 @@
-import { Link } from 'react-router-dom';
-
+import { useContext } from 'react';
+import { toast } from 'react-hot-toast';
 import { FcGoogle } from 'react-icons/fc';
+import { TbFidgetSpinner } from 'react-icons/tb';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
+import { AuthContext } from '../../providers/AuthProvider';
 
 const SignUp = () => {
+  const {
+    loading,
+    setLoading,
+    createUser,
+    signInWithGoogle,
+    updateUserProfile,
+  } = useContext(AuthContext);
+  const navigate = useNavigate();
+  const location = useLocation();
+
+  const from = location?.state?.from?.pathname || '/';
+
+  const handleSignUp = (e) => {
+    e.preventDefault();
+    const name = e.target.elements.name.value;
+    const email = e.target.elements.email.value;
+    const password = e.target.elements.password.value;
+    const image = e.target.elements.image.files[0];
+
+    // console.log({ name, email, password, image });
+
+    //* Upload Image to imgbb Server
+    const formData = new FormData();
+    formData.append('image', image);
+
+    const url = import.meta.env.VITE_URL;
+    fetch(url, {
+      method: 'POST',
+      body: formData,
+    })
+      .then((res) => res.json())
+      .then((imageData) => {
+        // console.log(imageData.data);
+        // get Image/Photo URL from imgbb Server
+        const photo = imageData.data.display_url;
+        // console.log(photo);
+
+        //* create user
+        createUser(email, password)
+          .then((result) => {
+            console.log(result.user);
+            toast.success('Account created successfully');
+            setLoading(false);
+
+            //* update user profile
+            updateUserProfile(name, photo)
+              .then(() => {
+                toast.success('Profile updated');
+                navigate(from, { replace: true });
+              })
+              .catch((error) => {
+                console.log(error.message);
+                toast.error(error.message);
+                setLoading(false);
+              });
+          })
+          .catch((error) => {
+            console.log(error.message);
+            toast.error(error.message);
+            setLoading(false);
+          });
+      })
+      .catch((error) => {
+        console.log(error.message);
+        toast.error(error.message);
+        setLoading(false);
+      });
+  };
+
+  const handleGoogleSignIn = () => {
+    signInWithGoogle()
+      .then((result) => {
+        console.log(result.user);
+        //* stop spinner if user logged-in successfully
+        setLoading(false);
+        navigate(from, { replace: true });
+      })
+      .catch((error) => {
+        console.log(error.message);
+        toast.error(error.message);
+        //* stop spinner if error happens
+        setLoading(false);
+      });
+  };
+
   return (
     <div className="flex min-h-screen items-center justify-center">
       <div className="flex max-w-md flex-col rounded-md bg-gray-100 p-6 text-gray-900 sm:p-10">
@@ -11,6 +99,7 @@ const SignUp = () => {
           <p className="text-sm text-gray-400">Welcome to AirCNC</p>
         </div>
         <form
+          onSubmit={handleSignUp}
           noValidate=""
           action=""
           className="ng-untouched ng-pristine ng-valid space-y-6"
@@ -77,7 +166,11 @@ const SignUp = () => {
               type="submit"
               className="w-full rounded-md bg-rose-500 py-3 text-white"
             >
-              Continue
+              {loading ? (
+                <TbFidgetSpinner size={24} className="mx-auto animate-spin" />
+              ) : (
+                'Continue'
+              )}
             </button>
           </div>
         </form>
@@ -88,7 +181,10 @@ const SignUp = () => {
           </p>
           <div className="h-px flex-1 dark:bg-gray-700 sm:w-16"></div>
         </div>
-        <div className="border-rounded m-3 flex cursor-pointer items-center justify-center space-x-2 border border-gray-300 p-2">
+        <div
+          onClick={handleGoogleSignIn}
+          className="border-rounded m-3 flex cursor-pointer items-center justify-center space-x-2 border border-gray-300 p-2"
+        >
           <FcGoogle size={32} />
 
           <p>Continue with Google</p>

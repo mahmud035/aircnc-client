@@ -1,7 +1,7 @@
 import { useContext, useState } from 'react';
 import { toast } from 'react-hot-toast';
 import { FcGoogle } from 'react-icons/fc';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { AuthContext } from '../../providers/AuthProvider';
 import { TbFidgetSpinner } from 'react-icons/tb';
 
@@ -10,6 +10,9 @@ const Login = () => {
     useContext(AuthContext);
   const [email, setEmail] = useState('');
   const navigate = useNavigate();
+  const location = useLocation();
+
+  const from = location?.state?.from?.pathname || '/';
 
   const handleLogin = (e) => {
     e.preventDefault();
@@ -20,7 +23,7 @@ const Login = () => {
       .then((result) => {
         console.log(result.user);
         setLoading(false);
-        navigate('/');
+        navigate(from, { replace: true });
       })
       .catch((error) => {
         console.log(error.message);
@@ -35,7 +38,7 @@ const Login = () => {
         console.log(result.user);
         //* stop spinner if user logged-in successfully
         setLoading(false);
-        navigate('/');
+        navigate(from, { replace: true });
       })
       .catch((error) => {
         console.log(error.message);
@@ -55,7 +58,7 @@ const Login = () => {
 
     resetPassword(email)
       .then(() => {
-        toast.info('Please check your email to rest password');
+        toast.info('Please check your email to reset password');
         setLoading(false);
       })
       .catch((error) => {
