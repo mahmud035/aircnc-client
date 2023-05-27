@@ -7,6 +7,7 @@ import Card from './Card';
 const Rooms = () => {
   const [params, setParams] = useSearchParams();
   const category = params.get('category');
+  console.log({ category });
 
   const [rooms, setRooms] = useState([]);
   const [loading, setLoading] = useState(false);
@@ -16,11 +17,19 @@ const Rooms = () => {
     fetch('rooms.json')
       .then((res) => res.json())
       .then((data) => {
-        setRooms(data);
+        if (category) {
+          const filteredData = data.filter(
+            (room) => room.category === category
+          );
+          setRooms(filteredData);
+        } else {
+          setRooms(data);
+        }
+
         setLoading(false);
       })
       .catch((error) => console.log(error.message));
-  }, []);
+  }, [category]);
 
   if (loading) {
     return <Loader />;

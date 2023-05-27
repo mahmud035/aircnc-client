@@ -28,7 +28,7 @@ const CategoryBox = ({ label, icon: Icon }) => {
     navigate(url);
   };
 
-  console.log(value);
+  // console.log({ value });
 
   return (
     <div
