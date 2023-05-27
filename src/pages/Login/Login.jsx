@@ -1,9 +1,9 @@
-import { Link, useNavigate } from 'react-router-dom';
-
-import { FcGoogle } from 'react-icons/fc';
 import { useContext } from 'react';
-import { AuthContext } from '../../providers/AuthProvider';
 import { toast } from 'react-hot-toast';
+import { FcGoogle } from 'react-icons/fc';
+import { Link, useNavigate } from 'react-router-dom';
+import { AuthContext } from '../../providers/AuthProvider';
+import { TbFidgetSpinner } from 'react-icons/tb';
 
 const Login = () => {
   const { loading, setLoading, signIn, signInWithGoogle, resetPassword } =
@@ -21,6 +21,7 @@ const Login = () => {
     signInWithGoogle()
       .then((result) => {
         console.log(result.user);
+        setLoading(false);
         navigate('/');
       })
       .catch((error) => {
@@ -81,7 +82,11 @@ const Login = () => {
               type="submit"
               className="w-full rounded-md bg-rose-500 py-3 text-white"
             >
-              Continue
+              {loading ? (
+                <TbFidgetSpinner size={24} className="mx-auto animate-spin" />
+              ) : (
+                'Continue'
+              )}
             </button>
           </div>
         </form>
