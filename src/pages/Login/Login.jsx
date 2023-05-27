@@ -33,13 +33,35 @@ const Login = () => {
     signInWithGoogle()
       .then((result) => {
         console.log(result.user);
-        setLoading(false); // stop spinner if user logged-in successfully
+        //* stop spinner if user logged-in successfully
+        setLoading(false);
         navigate('/');
       })
       .catch((error) => {
         console.log(error.message);
         toast.error(error.message);
-        setLoading(false); // stop spinner if error happens
+        //* stop spinner if error happens
+        setLoading(false);
+      });
+  };
+
+  const handleResetPassword = (email) => {
+    console.log({ email });
+
+    if (email.length === 0) {
+      toast.error('Please provide your email address');
+      return;
+    }
+
+    resetPassword(email)
+      .then(() => {
+        toast.info('Please check your email to rest password');
+        setLoading(false);
+      })
+      .catch((error) => {
+        console.log(error.message);
+        toast.error(error.message);
+        setLoading(false);
       });
   };
 
@@ -64,7 +86,7 @@ const Login = () => {
                 Email address
               </label>
               <input
-                onChange={() => setEmail(e.target.value)}
+                onBlur={(e) => setEmail(e.target.value)}
                 type="email"
                 name="email"
                 id="email"
