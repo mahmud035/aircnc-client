@@ -22,7 +22,7 @@ const Login = () => {
     signIn(email, password)
       .then((result) => {
         console.log(result.user);
-        toast.success('Logged-in successfully')
+        toast.success('Logged-in successfully');
         setLoading(false);
         navigate(from, { replace: true });
       })
@@ -59,7 +59,7 @@ const Login = () => {
 
     resetPassword(email)
       .then(() => {
-        toast.info('Please check your email to reset password');
+        toast.success('Please check your email to reset password');
         setLoading(false);
       })
       .catch((error) => {
