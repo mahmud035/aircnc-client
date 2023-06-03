@@ -39,6 +39,9 @@ const Login = () => {
         console.log(result.user);
         //* stop spinner if user logged-in successfully
         setLoading(false);
+        
+        //* Save user to database
+        saveUser(result.user);
         navigate(from, { replace: true });
       })
       .catch((error) => {

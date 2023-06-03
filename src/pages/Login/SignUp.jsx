@@ -4,6 +4,7 @@ import { FcGoogle } from 'react-icons/fc';
 import { TbFidgetSpinner } from 'react-icons/tb';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { AuthContext } from '../../providers/AuthProvider';
+import { saveUser } from '../../api/auth';
 
 const SignUp = () => {
   const {
@@ -53,7 +54,10 @@ const SignUp = () => {
             //* update user profile
             updateUserProfile(name, photo)
               .then(() => {
-                toast.success('Profile updated');
+                toast.success('Signup Successful');
+
+                //* Save user to database
+                saveUser(result.user);
                 navigate(from, { replace: true });
               })
               .catch((error) => {
@@ -81,6 +85,9 @@ const SignUp = () => {
         console.log(result.user);
         //* stop spinner if user logged-in successfully
         setLoading(false);
+
+        //* Save user to database
+        saveUser(result.user);
         navigate(from, { replace: true });
       })
       .catch((error) => {
