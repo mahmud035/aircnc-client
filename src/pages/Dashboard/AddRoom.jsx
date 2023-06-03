@@ -2,6 +2,8 @@ import { useContext, useState } from 'react';
 import AddRoomForm from '../../components/Forms/AddRoomForm';
 import { imageUpload } from '../../api/image-upload';
 import useAuth from '../../hook/useAuth';
+import { toast } from 'react-hot-toast';
+import { addRoom } from '../../api/rooms';
 
 const AddRoom = () => {
   const { user } = useAuth();
@@ -16,12 +18,13 @@ const AddRoom = () => {
   // handle form submit
   const handleSubmit = (e) => {
     e.preventDefault();
+    // start loading
     setLoading(true);
 
     const location = e.target.location.value;
     const title = e.target.title.value;
-    const from = dates.startDate;
-    const to = dates.endDate;
+    const from = dates.startDate; // start date
+    const to = dates.endDate; // end date
     const price = e.target.price.value;
     const total_guest = e.target.total_guest.value;
     const bedrooms = e.target.bedrooms.value;
@@ -56,10 +59,19 @@ const AddRoom = () => {
           description,
           category,
         };
+        // console.log(roomData);
 
-        console.log(roomData);
-
+        // stop loading
         setLoading(false);
+
+        //* Add room in DB
+        addRoom(roomData)
+          .then((data) => {
+            if (data.success) {
+              toast.success(data.message);
+            }
+          })
+          .catch((error) => console.log(error));
       })
       .catch((error) => {
         console.log(error);
