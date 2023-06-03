@@ -32,7 +32,7 @@ const SignUp = () => {
     const formData = new FormData();
     formData.append('image', image);
 
-    const url = import.meta.env.VITE_URL;
+    const url = import.meta.env.VITE_IMAGE_BB_URL;
     fetch(url, {
       method: 'POST',
       body: formData,
