@@ -1,7 +1,10 @@
-import { useState } from 'react';
+import { useContext, useState } from 'react';
 import AddRoomForm from '../../components/Forms/AddRoomForm';
+import { imageUpload } from '../../api/image-upload';
+import useAuth from '../../hook/useAuth';
 
 const AddRoom = () => {
+  const { user } = useAuth();
   const [loading, setLoading] = useState(false);
   const [uploadButtonText, setUploadButtonText] = useState('Upload Image');
 
@@ -22,13 +25,43 @@ const AddRoom = () => {
     const category = e.target.category.value;
 
     const image = e.target.image.files[0];
+
+    //* Upload image to imgbb server
+    imageUpload(image)
+      .then((imageData) => {
+        const imageURL = imageData?.data?.display_url;
+
+        // create roomData object
+        const roomData = {
+          // host info
+          host: {
+            name: user?.displayName,
+            image: user?.photoURL,
+            email: user?.email,
+          },
+          image: imageURL,
+          location,
+          title,
+          price,
+          total_guest,
+          bedrooms,
+          bathrooms,
+          description,
+          category,
+        };
+
+        setLoading(false);
+      })
+      .catch((error) => {
+        console.log(error);
+        setLoading(false);
+      });
   };
 
   // change text: upload image to image name
   const handleImageChange = (image) => {
+    // console.log(image);
     setUploadButtonText(image.name);
-
-    console.log(image);
   };
 
   return (

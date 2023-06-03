@@ -3,8 +3,8 @@ import { toast } from 'react-hot-toast';
 import { FcGoogle } from 'react-icons/fc';
 import { TbFidgetSpinner } from 'react-icons/tb';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
-import { AuthContext } from '../../providers/AuthProvider';
 import { saveUser } from '../../api/auth';
+import { AuthContext } from '../../providers/AuthProvider';
 
 const SignUp = () => {
   const {
