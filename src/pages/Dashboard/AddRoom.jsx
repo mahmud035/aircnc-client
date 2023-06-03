@@ -7,6 +7,11 @@ const AddRoom = () => {
   const { user } = useAuth();
   const [loading, setLoading] = useState(false);
   const [uploadButtonText, setUploadButtonText] = useState('Upload Image');
+  const [dates, setDates] = useState({
+    startDate: new Date(),
+    endDate: new Date(),
+    key: 'selection',
+  });
 
   // handle form submit
   const handleSubmit = (e) => {
@@ -15,8 +20,8 @@ const AddRoom = () => {
 
     const location = e.target.location.value;
     const title = e.target.title.value;
-    // const from = dates.startDate;
-    // const to = dates.endDate;
+    const from = dates.startDate;
+    const to = dates.endDate;
     const price = e.target.price.value;
     const total_guest = e.target.total_guest.value;
     const bedrooms = e.target.bedrooms.value;
@@ -42,6 +47,8 @@ const AddRoom = () => {
           image: imageURL,
           location,
           title,
+          from,
+          to,
           price,
           total_guest,
           bedrooms,
@@ -49,6 +56,8 @@ const AddRoom = () => {
           description,
           category,
         };
+
+        console.log(roomData);
 
         setLoading(false);
       })
@@ -64,6 +73,11 @@ const AddRoom = () => {
     setUploadButtonText(image.name);
   };
 
+  // select data range
+  const handleDates = (ranges) => {
+    setDates(ranges.selection);
+  };
+
   return (
     <>
       <AddRoomForm
@@ -71,6 +85,8 @@ const AddRoom = () => {
         loading={loading}
         handleImageChange={handleImageChange}
         uploadButtonText={uploadButtonText}
+        dates={dates}
+        handleDates={handleDates}
       />
     </>
   );
