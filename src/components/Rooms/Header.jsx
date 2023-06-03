@@ -1,19 +1,13 @@
 import Heading from '../Heading/Heading';
 
-const Header = () => {
+const Header = ({ roomData }) => {
+  const { image, location, title } = roomData;
+
   return (
     <>
-      <Heading
-        title="Veluvana Bali, Owl Bamboo House"
-        subtitle="Sidemen, Indonesia"
-        center={false}
-      />
+      <Heading title={title} subtitle={location} center={false} />
       <div className="w-full overflow-hidden rounded-xl md:h-[60vh]">
-        <img
-          className="w-full object-cover"
-          src="https://a0.muscache.com/im/pictures/4f70b681-a792-4530-8c52-f2a8d262942d.jpg"
-          alt="header image"
-        />
+        <img className="w-full object-cover" src={image} alt="header image" />
       </div>
     </>
   );
