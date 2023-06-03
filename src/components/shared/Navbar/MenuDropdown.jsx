@@ -1,11 +1,12 @@
-import { useCallback, useContext, useState } from 'react';
+import { useCallback, useState } from 'react';
 import { AiOutlineMenu } from 'react-icons/ai';
 import { Link, useNavigate } from 'react-router-dom';
-import { AuthContext } from '../../../providers/AuthProvider';
+import { becomeHost } from '../../../api/auth';
+import useAuth from '../../../hook/useAuth';
 import Avatar from './Avatar';
 
-const MenuDropdown = () => {
-  const { user, logOut } = useContext(AuthContext);
+const MenuDropdown = ({ openModal }) => {
+  const { user, logOut } = useAuth();
   const [isOpen, setIsOpen] = useState(false);
   const navigate = useNavigate();
   // console.log(user);
@@ -24,8 +25,11 @@ const MenuDropdown = () => {
   return (
     <div className="relative">
       <div className="flex flex-row items-center gap-3">
-        {/* Aircnc btn */}
-        <div className="hidden cursor-pointer rounded-full px-4 py-3 text-sm font-semibold transition hover:bg-neutral-100 md:block">
+        {/* Aircnc btn: NOTE: If a logged in user clicked this button, he/she will become a 'host' and can add room. */}
+        <div
+          onClick={openModal}
+          className="hidden cursor-pointer rounded-full px-4 py-3 text-sm font-semibold transition hover:bg-neutral-100 md:block"
+        >
           AirCNC your home
         </div>
         {/* Dropdown btn  */}

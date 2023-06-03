@@ -4,6 +4,7 @@ import { FcGoogle } from 'react-icons/fc';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { AuthContext } from '../../providers/AuthProvider';
 import { TbFidgetSpinner } from 'react-icons/tb';
+import { saveUser } from '../../api/auth';
 
 const Login = () => {
   const { loading, setLoading, signIn, signInWithGoogle, resetPassword } =

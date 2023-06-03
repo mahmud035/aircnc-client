@@ -1,3 +1,5 @@
+import { toast } from 'react-hot-toast';
+
 // save a user to database
 export const saveUser = async (user) => {
   const currentUser = {
@@ -14,6 +16,28 @@ export const saveUser = async (user) => {
     .then((res) => res.json())
     .then((data) => {
       if (data.success) {
+        console.log(data);
+      }
+    });
+};
+
+// become a host
+export const becomeHost = async (email) => {
+  const currentUser = {
+    role: 'host',
+  };
+
+  fetch(`http://localhost:5000/users/${email}`, {
+    method: 'PUT',
+    headers: {
+      'content-type': 'application/json',
+    },
+    body: JSON.stringify(currentUser),
+  })
+    .then((res) => res.json())
+    .then((data) => {
+      if (data.success) {
+        toast.success('Congratulations! you are a host now');
         console.log(data);
       }
     });
