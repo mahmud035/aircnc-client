@@ -21,7 +21,7 @@ const Login = () => {
 
     signIn(email, password)
       .then((result) => {
-        console.log(result.user);
+        // console.log(result.user);
         toast.success('Logged-in successfully');
         setLoading(false);
         navigate(from, { replace: true });
@@ -36,10 +36,10 @@ const Login = () => {
   const handleGoogleSignIn = () => {
     signInWithGoogle()
       .then((result) => {
-        console.log(result.user);
+        // console.log(result.user);
         //* stop spinner if user logged-in successfully
         setLoading(false);
-        
+
         //* Save user to database
         saveUser(result.user);
         navigate(from, { replace: true });
