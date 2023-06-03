@@ -43,21 +43,23 @@ const MenuDropdown = () => {
       {isOpen && (
         <div className="absolute right-0 top-12 w-[40vw] overflow-hidden rounded-xl bg-white text-sm shadow-md md:w-3/4">
           <div className="flex cursor-pointer flex-col">
-            <Link
-              to="/"
-              className="block px-4 py-3 font-semibold transition hover:bg-neutral-100 "
-            >
-              Home
-            </Link>
-
             {/* Conditionally show login / logout btn */}
             {user ? (
-              <div
-                onClick={handleLogout}
-                className="cursor-pointer px-4 py-3 font-semibold transition hover:bg-neutral-100"
-              >
-                Logout
-              </div>
+              <>
+                <Link
+                  to="/dashboard"
+                  className="px-4 py-3 font-semibold transition hover:bg-neutral-100"
+                >
+                  Dashboard
+                </Link>
+
+                <div
+                  onClick={handleLogout}
+                  className="cursor-pointer px-4 py-3 font-semibold transition hover:bg-neutral-100"
+                >
+                  Logout
+                </div>
+              </>
             ) : (
               <>
                 <Link

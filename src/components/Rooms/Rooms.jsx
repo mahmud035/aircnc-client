@@ -4,6 +4,7 @@ import Container from '../shared/Container';
 import Loader from '../shared/Loader';
 import Card from './Card';
 import Heading from '../Heading/Heading';
+import { getAllRooms } from '../../api/rooms';
 
 const Rooms = () => {
   const [params, setParams] = useSearchParams();
@@ -15,16 +16,15 @@ const Rooms = () => {
 
   useEffect(() => {
     setLoading(true);
-    fetch('rooms.json')
-      .then((res) => res.json())
+    getAllRooms()
       .then((data) => {
         if (category) {
-          const filteredData = data.filter(
+          const filteredData = data.data.filter(
             (room) => room.category === category
           );
           setRooms(filteredData);
         } else {
-          setRooms(data);
+          setRooms(data.data);
         }
 
         setLoading(false);

@@ -1,9 +1,30 @@
+import { useLoaderData } from 'react-router-dom';
+import { getRoom } from '../../api/rooms';
 import Header from '../../components/Rooms/Header';
 import RoomInfo from '../../components/Rooms/RoomInfo';
 import RoomReservation from '../../components/Rooms/RoomReservation';
 import Container from '../../components/shared/Container';
 
 const RoomDetails = () => {
+  const data = useLoaderData();
+  const room = data.data;
+  console.log(room);
+
+  const {
+    bathrooms,
+    bedrooms,
+    category,
+    description,
+    from,
+    host,
+    image,
+    location,
+    price,
+    title,
+    to,
+    total_guest,
+  } = room;
+
   return (
     <Container>
       <div className="mx-auto max-w-screen-lg">
