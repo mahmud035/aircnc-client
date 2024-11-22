@@ -37,7 +37,7 @@ export const becomeHost = async (email) => {
     .then((res) => res.json())
     .then((data) => {
       if (data.success) {
-        toast.success('Congratulations! you are a host now');
+        toast.success('You are a host now! Post rooms.');
         console.log(data);
       }
     });

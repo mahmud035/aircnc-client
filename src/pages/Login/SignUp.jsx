@@ -26,8 +26,6 @@ const SignUp = () => {
     const password = e.target.elements.password.value;
     const image = e.target.elements.image.files[0];
 
-    // console.log({ name, email, password, image });
-
     //* Upload Image to imgbb Server
     const formData = new FormData();
     formData.append('image', image);
@@ -39,15 +37,12 @@ const SignUp = () => {
     })
       .then((res) => res.json())
       .then((imageData) => {
-        // console.log(imageData.data);
         // get Image/Photo URL from imgbb Server
         const photo = imageData.data.display_url;
-        // console.log(photo);
 
         //* create user
         createUser(email, password)
           .then((result) => {
-            // console.log(result.user);
             toast.success('Account created successfully');
             setLoading(false);
 
@@ -61,19 +56,16 @@ const SignUp = () => {
                 navigate(from, { replace: true });
               })
               .catch((error) => {
-                console.log(error.message);
                 toast.error(error.message);
                 setLoading(false);
               });
           })
           .catch((error) => {
-            console.log(error.message);
             toast.error(error.message);
             setLoading(false);
           });
       })
       .catch((error) => {
-        console.log(error.message);
         toast.error(error.message);
         setLoading(false);
       });
@@ -82,7 +74,6 @@ const SignUp = () => {
   const handleGoogleSignIn = () => {
     signInWithGoogle()
       .then((result) => {
-        console.log(result.user);
         //* stop spinner if user logged-in successfully
         setLoading(false);
 
@@ -91,7 +82,6 @@ const SignUp = () => {
         navigate(from, { replace: true });
       })
       .catch((error) => {
-        console.log(error.message);
         toast.error(error.message);
         //* stop spinner if error happens
         setLoading(false);
@@ -99,8 +89,8 @@ const SignUp = () => {
   };
 
   return (
-    <div className="flex min-h-screen items-center justify-center">
-      <div className="flex max-w-md flex-col rounded-md bg-gray-100 p-6 text-gray-900 sm:p-10">
+    <div className="flex items-center justify-center min-h-screen">
+      <div className="flex flex-col max-w-md p-6 text-gray-900 bg-gray-100 rounded-md sm:p-10">
         <div className="mb-8 text-center">
           <h1 className="my-3 text-4xl font-bold">Sign Up</h1>
           <p className="text-sm text-gray-400">Welcome to AirCNC</p>
@@ -109,11 +99,11 @@ const SignUp = () => {
           onSubmit={handleSignUp}
           noValidate=""
           action=""
-          className="ng-untouched ng-pristine ng-valid space-y-6"
+          className="space-y-6 ng-untouched ng-pristine ng-valid"
         >
           <div className="space-y-4">
             <div>
-              <label htmlFor="email" className="mb-2 block text-sm">
+              <label htmlFor="email" className="block mb-2 text-sm">
                 Name
               </label>
               <input
@@ -121,12 +111,12 @@ const SignUp = () => {
                 name="name"
                 id="name"
                 placeholder="Enter Your Name Here"
-                className="w-full rounded-md border border-gray-300 bg-gray-200 px-3 py-2 text-gray-900 focus:outline-rose-500"
+                className="w-full px-3 py-2 text-gray-900 bg-gray-200 border border-gray-300 rounded-md focus:outline-rose-500"
                 data-temp-mail-org="0"
               />
             </div>
             <div>
-              <label htmlFor="image" className="mb-2 block text-sm">
+              <label htmlFor="image" className="block mb-2 text-sm">
                 Select Image:
               </label>
               <input
@@ -138,7 +128,7 @@ const SignUp = () => {
               />
             </div>
             <div>
-              <label htmlFor="email" className="mb-2 block text-sm">
+              <label htmlFor="email" className="block mb-2 text-sm">
                 Email address
               </label>
               <input
@@ -147,7 +137,7 @@ const SignUp = () => {
                 id="email"
                 required
                 placeholder="Enter Your Email Here"
-                className="w-full rounded-md border border-gray-300 bg-gray-200 px-3 py-2 text-gray-900 focus:outline-rose-500"
+                className="w-full px-3 py-2 text-gray-900 bg-gray-200 border border-gray-300 rounded-md focus:outline-rose-500"
                 data-temp-mail-org="0"
               />
             </div>
@@ -163,7 +153,7 @@ const SignUp = () => {
                 id="password"
                 required
                 placeholder="*******"
-                className="w-full rounded-md border border-gray-300 bg-gray-200 px-3 py-2 text-gray-900 focus:outline-rose-500"
+                className="w-full px-3 py-2 text-gray-900 bg-gray-200 border border-gray-300 rounded-md focus:outline-rose-500"
               />
             </div>
           </div>
@@ -171,7 +161,7 @@ const SignUp = () => {
           <div>
             <button
               type="submit"
-              className="w-full rounded-md bg-rose-500 py-3 text-white"
+              className="w-full py-3 text-white rounded-md bg-rose-500"
             >
               {loading ? (
                 <TbFidgetSpinner size={24} className="mx-auto animate-spin" />
@@ -181,23 +171,23 @@ const SignUp = () => {
             </button>
           </div>
         </form>
-        <div className="flex items-center space-x-1 pt-4">
-          <div className="h-px flex-1 dark:bg-gray-700 sm:w-16"></div>
+        <div className="flex items-center pt-4 space-x-1">
+          <div className="flex-1 h-px dark:bg-gray-700 sm:w-16"></div>
           <p className="px-3 text-sm dark:text-gray-400">
             SignUp with social accounts
           </p>
-          <div className="h-px flex-1 dark:bg-gray-700 sm:w-16"></div>
+          <div className="flex-1 h-px dark:bg-gray-700 sm:w-16"></div>
         </div>
         <div
           onClick={handleGoogleSignIn}
-          className="border-rounded m-3 flex cursor-pointer items-center justify-center space-x-2 border border-gray-300 p-2"
+          className="flex items-center justify-center p-2 m-3 space-x-2 border border-gray-300 cursor-pointer border-rounded"
         >
           <FcGoogle size={32} />
 
           <p>Continue with Google</p>
         </div>
-        <p className="px-6 text-center text-sm text-gray-400">
-          Already have an account?{' '}
+        <p className="px-6 text-sm text-center text-gray-400">
+          Already have an account?&nbsp;
           <Link
             to="/login"
             className="text-gray-600 hover:text-rose-500 hover:underline"
